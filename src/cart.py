@@ -6,19 +6,20 @@ def apply_discount(price, discount_percentage):
     if discount_percentage < 0 or discount_percentage > 100:
         raise ValueError("Discount must be between 0 and 100")
     
-    # BUG: The previous developer subtracted the percentage number directly!
-    # If price is 100 and discount is 20, this returns 80 (Correct accidentally).
-    # But if price is 50 and discount is 20, this returns 30 (WRONG! Should be 40).
-    final_price = price - discount_percentage 
+    # FIX: Calculate discount as a percentage of the price
+    discount_amount = price * (discount_percentage / 100)
+    final_price = price - discount_amount
     
     if final_price < 0:
         return 0.0
-    return final_price
+    return float(final_price)
 
 def calculate_tax(subtotal, tax_rate):
     """
     Calculates tax based on a decimal rate (e.g., 0.05 for 5%).
-    TODO: Implement this function.
     """
-    # Currently returns 0, which is illegal!
-    return 0.0
+    if tax_rate < 0:
+        raise ValueError("Tax rate cannot be negative")
+    
+    tax = subtotal * tax_rate
+    return float(tax)
